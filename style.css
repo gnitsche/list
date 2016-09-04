@@ -1,0 +1,162 @@
+/* background color incl automatic font color */
+.list-reset, .list--roman *, .list--date *, .list--timeline * {
+  list-style-type: none; }
+
+.list-item, .list--roman li:before, .list--date li:before, .list--timeline li:before {
+  position: absolute;
+  left: 0;
+  vertical-align: middle;
+  text-align: center; }
+
+.list-divider, .list--roman *, .list--date * {
+  border-bottom-width: 1px; }
+  .list-divider:last-child, .list--roman :last-child, .list--date :last-child {
+    border: none; }
+
+body {
+  font-family: sans-serif;
+  /* include transparency - example: 0.5 */
+  background: #2b2b2b;
+  color: #919191; }
+
+h1, h3 {
+  text-align: center;
+  font-weight: 300;
+  color: #dfdfdf; }
+
+a {
+  color: inherit; }
+
+.list {
+  margin: 60px auto;
+  width: 400px; }
+
+.list li {
+  padding: 5.33333px;
+  font-size: 16px;
+  line-height: 32px;
+  cursor: pointer; }
+.list--roman {
+  counter-reset: item; }
+  .list--roman ol, .list--roman ul {
+    padding-left: 37.5px; }
+  .list--roman li {
+    position: relative;
+    padding-left: 40px; }
+    .list--roman li:before {
+      width: 30px; }
+  .list--roman li:before {
+    content: counter(item,upper-roman);
+    counter-increment: item; }
+  .list--roman li {
+    color: #A1D3E8; }
+    .list--roman li:before {
+      border-left: 4px solid #A1D3E8;
+      color: #dfdfdf; }
+  .list--roman * {
+    border-bottom-style: dotted;
+    border-color: #6a6a6a; }
+  .list--roman li {
+    -webkit-transition: all 0.3s linear;
+            transition: all 0.3s linear; }
+    .list--roman li:hover {
+      /* include transparency - example: 0.5 */
+      background: #151515;
+      color: #7b7b7b; }
+.list--date {
+  counter-reset: item; }
+  .list--date ol, .list--date ul {
+    padding-left: 0; }
+  .list--date li {
+    position: relative;
+    padding-left: 60px; }
+    .list--date li:before {
+      width: 50px; }
+  .list--date li:before {
+    content: attr(title); }
+  .list--date li:before {
+    content: counter(item,title);
+    counter-increment: item; }
+  .list--date li {
+    color: #dfdfdf;
+    padding-left: 74px; }
+    .list--date li:before {
+      /* include transparency - example: 0.5 */
+      background: #7093a2;
+      color: #1c262a;
+      margin-top: 5.33333px;
+      margin-left: 5.33333px;
+      content: '---';
+      font-weight: 700;
+      font-size: 13.33333px;
+      line-height: 28.8px;
+      width: 50px; }
+    .list--date li[title]:before {
+      /* include transparency - example: 0.5 */
+      background: #A1D3E8;
+      color: #257698;
+      color: #151515;
+      content: attr(title); }
+    .list--date li:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      top: 20px;
+      left: 55.33333px;
+      border-style: solid;
+      border-width: 5.33333px 0 5.33333px 5.33333px;
+      border-color: transparent transparent transparent #7093a2;
+      z-index: 2; }
+    .list--date li[title]:after {
+      border-color: transparent transparent transparent #A1D3E8; }
+  .list--date li {
+    -webkit-transition: all 0.3s linear;
+            transition: all 0.3s linear; }
+    .list--date li:hover {
+      /* include transparency - example: 0.5 */
+      background: #7093a2;
+      color: #1c262a; }
+  .list--date * {
+    border-bottom-style: solid;
+    border-color: #404040; }
+.list--timeline {
+  color: #959595;
+  counter-reset: item; }
+  .list--timeline ol, .list--timeline ul {
+    padding-left: 0; }
+  .list--timeline li {
+    position: relative;
+    padding-left: 40px; }
+    .list--timeline li:before {
+      width: 30px; }
+  .list--timeline li:before {
+    content: counter(item,decimal-leading-zero);
+    counter-increment: item; }
+  .list--timeline li {
+    color: #dfdfdf;
+    line-height: 30px; }
+    .list--timeline li:before {
+      position: absolute;
+      left: 0;
+      vertical-align: middle;
+      text-align: center;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      font-size: 13.33333px;
+      border: 1px solid #959595;
+      border-radius: 50%;
+      /* include transparency - example: 0.5 */
+      background: #2b2b2b;
+      color: #919191;
+      color: #dfdfdf;
+      z-index: 2; }
+    .list--timeline li:after {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 16px;
+      width: 1px;
+      height: 100%;
+      background: #6a6a6a; }

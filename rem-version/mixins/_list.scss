@@ -1,0 +1,211 @@
+
+// "dl" list elements are NOT defined
+
+// list-size
+// list-style
+// list-item-divider
+// list-item-hover
+// list-style-theme
+
+// ========================================================================
+// variables - theme colors (default)
+// ========================================================================
+
+// == block ==
+$theme-block_color-icon-bg: gray !default;
+$theme-block_color-icon-bg-disabled: gray !default;
+$theme-block_color-icon: null !default;
+$theme-block_color-text: null !default;
+
+// == circle ==
+$theme-circle_color-icon-bg: gray !default;
+$theme-circle_color-icon-border: null !default;
+$theme-circle_color-icon-border-vertical: null !default;
+$theme-circle_color-icon: null !default;
+$theme-circle_color-text: null !default;
+
+// == border ==
+$theme-border_color-icon-border: null !default;
+$theme-border_color-icon: null !default;
+$theme-border_color-text: null !default;
+
+
+
+@mixin list-size($list-size-value: 16px) {
+  $list-font-size: $list-size-value !global;
+
+  li {
+    // default
+    $list-size__padding: $list-font-size / 3;
+    @include rem(padding, $list-size__padding);
+    @include rem(font-size, $list-font-size);
+    $list-size__line-height: $list-font-size * 2;
+    @include rem(line-height, $list-size__line-height);
+    cursor: pointer;
+  }
+}
+
+// Examples:
+// @include list-style(title, 80px);
+// @include list-style(decimal-leading-zero, 30px, reset);
+// @include list-style(default);
+@mixin list-style($list-style-value: default, $list-style-width: auto, $list-style-reset: false) {
+  $list-style-width: $list-style-width !global; // need for theme
+
+  @if ($list-style-value == title) or ($list-style-value != default) {
+    ol, ul {
+      @if ($list-style-reset == reset) {
+        padding-left: 0;
+      } @else {
+        $list-style-ul__padding-left: $list-style-width + ($list-style-width / 4);
+        @include rem(padding-left, $list-style-ul__padding-left);
+      }
+    }
+    & * {
+      @extend .list-reset;
+    }
+    li {
+      position: relative;
+      $list-style-li__padding-left: $list-style-width + 10px;
+      @include rem(padding-left, $list-style-li__padding-left);
+      &:before {
+        @include rem(width, $list-style-width);
+        @extend .list-item;
+      }
+    }
+  }
+  @if ($list-style-value == title) {
+    li:before {
+      content: attr(title);
+    }
+  }
+  @if ($list-style-value != default) {
+    counter-reset: item;
+    li:before {
+      content: counter(item, $list-style-value);
+      counter-increment: item;
+    }
+  }
+}
+
+@mixin list-item-divider($list-item-border-color: false, $list-item-border-style: solid) {
+  @if ($list-item-border-color != false) {
+    & * {
+      @extend .list-divider;
+      border-bottom-style: $list-item-border-style;
+      border-color: $list-item-border-color;
+    }
+  }
+}
+@mixin list-item-hover($list-item-hover-color: false) {
+  @if ($list-item-hover-color != false) {
+    li {
+      transition: all 0.3s linear;
+      &:hover {
+        @include set-background($list-item-hover-color);
+      }
+    }
+  }
+}
+
+
+@mixin list-style-theme($list-style-theme: false) {
+
+  // THEME "Block" with an arrow on the right side
+  @if ($list-style-theme == block) {
+    li {
+      color: $theme-block_color-text;
+      $list-style-theme_block__padding-left: $list-style-width + ($list-font-size * 1.5);
+      @include rem(padding-left, $list-style-theme_block__padding-left);
+      &:before {
+        @include set-background($theme-block_color-icon-bg-disabled);
+        $list-style-theme_block__margin-top: $list-font-size / 3;
+        @include rem(margin-top, $list-style-theme_block__margin-top);
+        $list-style-theme_block__margin-left: $list-font-size / 3;
+        @include rem(margin-left, $list-style-theme_block__margin-left);
+        content:'---'; // default: no title
+        font-weight: 700;
+        $list-style-theme_block__font-size: $list-font-size - ($list-font-size / 6);
+        @include rem(font-size, $list-style-theme_block__font-size);
+        $list-style-theme_block__line-height: $list-font-size * 1.8;
+        @include rem(line-height, $list-style-theme_block__line-height);
+        @include rem(width, $list-style-width);
+      }
+      &[title]:before {
+        @include set-background($theme-block_color-icon-bg);
+        color: $theme-block_color-icon;
+        content: attr(title);
+      }
+      &:after {
+        // arrow
+      	content: '';
+      	display: block;
+      	position:absolute;
+      	width: 0;
+      	$list-style-theme_block__top: $list-font-size  + ($list-font-size / 4);
+        @include rem(top, $list-style-theme_block__top);
+      	$list-style-theme_block__left: $list-style-width + ($list-font-size / 3);
+        @include rem(left, $list-style-theme_block__left);
+      	border-style: solid;
+      	$list-style-theme_block__border-width: ($list-font-size / 3) 0 ($list-font-size / 3) ($list-font-size / 3);
+        @include rem(border-width, $list-style-theme_block__border-width);
+      	border-color: transparent transparent transparent $theme-block_color-icon-bg-disabled;
+      	z-index:2;
+      }
+      &[title]:after {
+        border-color: transparent transparent transparent $theme-block_color-icon-bg;
+      }
+    }
+  }
+
+  // THEME "Border" with a vertical border on the left side
+  @if ($list-style-theme == border) {
+    li {
+      color: $theme-border_color-text;
+      &:before {
+        $list-style-theme_border__border-width: $list-font-size / 4;
+        @include rem(border-width, $list-style-theme_border__border-width);
+        border-left: solid $theme-border_color-icon-border;
+        color: $theme-border_color-icon;
+      }
+    }
+  }
+
+  // THEME "Circle"
+  @if ($list-style-theme == circle) {
+    $list-style-theme_circle__line-height: $list-style-width;
+    li {
+      color: $theme-circle_color-text;
+      @if (($list-font-size * 1.5) <= $list-style-width) {
+        @include rem(line-height, $list-style-theme_circle__line-height);
+      }
+      &:before {
+        position: absolute;
+        left: 0;
+        vertical-align: middle;
+        text-align: center;
+        @include rem(width, $list-style-width);
+        @include rem(height, $list-style-width);
+      	@include rem(line-height, $list-style-theme_circle__line-height);
+      	$list-style-theme_circle__font-size: $list-font-size - ($list-font-size / 6);
+        @include rem(font-size, $list-style-theme_circle__font-size);
+      	border: 1px solid $theme-circle_color-icon-border;
+      	border-radius: 50%;
+        @include set-background($theme-circle_color-icon-bg);
+        color: $theme-circle_color-icon;
+      	z-index:2;
+      }
+      &:after {
+        // vertical line
+        position: absolute;
+        content: '';
+        top:0;
+        $list-style-theme_circle__left: ($list-style-width / 2) + 1px;
+        @include rem(left, $list-style-theme_circle__left);
+        @include rem(width, 1px);
+        height: 100%;
+        background: $theme-circle_color-icon-border-vertical;
+      }
+    }
+  }
+}

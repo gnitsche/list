@@ -1,0 +1,108 @@
+
+// ========================================================================
+// mixins / extends
+// ========================================================================
+
+@import "mixins/background";
+@import "extends/list";
+@import "mixins/list";
+
+// ========================================================================
+// variables - colors
+// ========================================================================
+
+$color: #A1D3E8; // primary color
+$color-gray: #2b2b2b; // default gray
+
+$color-white: #ffffff;
+$color-black: #000000;
+
+$color-gray-light-xxx: mix($color-white, $color-gray, 85%);
+$color-gray-light-xx: mix($color-white, $color-gray, 50%);
+$color-gray-light-x: mix($color-white, $color-gray, 30%);
+$color-gray-light: mix($color-white, $color-gray, 10%);
+$color-gray-dark: mix($color-black, $color-gray, 10%);
+$color-gray-dark-x: mix($color-black, $color-gray, 20%);
+$color-gray-dark-xx: mix($color-black, $color-gray, 30%);
+$color-gray-dark-xxx: mix($color-black, $color-gray, 50%);
+
+$color-dark: mix($color-black, $color, 30%);
+
+$color-body: $color-gray; // document
+
+// Important!
+// basic value for all calculated list distances
+$list-font-size: 16px; // 16px;
+
+// ========================================================================
+// variables - theme colors
+// ========================================================================
+
+// == block ==
+$theme-block_color-icon-bg: $color;
+$theme-block_color-icon-bg-disabled: $color-dark;
+$theme-block_color-icon: $color-gray-dark-xxx;
+$theme-block_color-text: $color-gray-light-xxx;
+
+// == circle ==
+$theme-circle_color-icon-bg: $color-body;
+$theme-circle_color-icon-border: $color-gray-light-xx;
+$theme-circle_color-icon-border-vertical: $color-gray-light-x;
+$theme-circle_color-icon: $color-gray-light-xxx;
+$theme-circle_color-text: $color-gray-light-xxx;
+
+// == border ==
+$theme-border_color-icon-border: $color;
+$theme-border_color-icon: $color-gray-light-xxx;
+$theme-border_color-text: $color;
+
+
+// ========================================================================
+// css for THIS document
+// ========================================================================
+
+body {
+  font-family: sans-serif;
+  @include set-background($color-body);
+}
+h1, h3 {
+  text-align:center;
+	font-weight:300;
+  color: $color-gray-light-xxx;
+}
+a {
+  color: inherit;
+}
+.list {
+  margin: 60px auto;
+  width: 400px;
+}
+
+// ========================================================================
+// list
+// ========================================================================
+
+.list {
+  @include list-size($list-font-size);
+  //@include list-style(title, 80px);
+  //@include list-style(decimal-leading-zero, 20px);
+  @include list-style(default);
+
+  &--roman {
+    @include list-style(upper-roman, 30px);
+    @include list-style-theme(border);
+    @include list-item-divider($color-gray-light-x, dotted);
+    @include list-item-hover($color-gray-dark-xxx);
+  }
+  &--date {
+    @include list-style(title, 50px, reset);
+    @include list-style-theme(block);
+    @include list-item-hover($color-dark);
+    @include list-item-divider($color-gray-light);
+  }
+  &--timeline {
+    color: $color-gray-light-xx;
+    @include list-style(decimal-leading-zero, 30px, reset);
+    @include list-style-theme(circle);
+  }
+}
